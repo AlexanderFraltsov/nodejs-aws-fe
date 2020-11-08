@@ -15,7 +15,7 @@ axios.interceptors.response.use(
   function(error) {
     console.log(JSON.stringify(error));
     if (error.response.status === 400) {
-      alert(error.response.data?.data);
+      // alert(error.response.data?.data);
     }
     return Promise.reject(error.response);
   }
