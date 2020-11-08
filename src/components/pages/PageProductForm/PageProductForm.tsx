@@ -9,6 +9,7 @@ import {useHistory, useParams} from 'react-router-dom';
 import PaperLayout from "components/PaperLayout/PaperLayout";
 import Typography from "@material-ui/core/Typography";
 import API_PATHS from "constants/apiPaths";
+import {Link} from 'react-router-dom';
 
 const Form = (props: FormikProps<FormikValues>) => {
   const {
@@ -90,6 +91,7 @@ const Form = (props: FormikProps<FormikValues>) => {
         </Grid>
         <Grid item container xs={12} justify="space-between">
           <Button
+            component={Link} to="/admin/products"
             color="primary"
           >
             Cancel
