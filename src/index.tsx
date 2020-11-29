@@ -8,16 +8,41 @@ import * as serviceWorker from './serviceWorker';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import axios from 'axios';
 
+import API_PATHS from './constants/apiPaths';
+
+axios.interceptors.request.use(
+  request => {
+    console.log(request)
+    if (request.url === `${API_PATHS.import}/import`) {
+      const token = localStorage.getItem('authorization_token');
+      console.log(token);
+      if (token) {
+        const headers = {
+          ...request.headers,
+          Authorization: `Basic ${token}`
+        };
+        return {
+          ...request,
+          headers
+        };
+      }
+    }
+    return request;
+  }
+)
+
 axios.interceptors.response.use(
   response => {
     return response;
   },
-  function(error) {
-    console.log(JSON.stringify(error));
-    if (error.response.status === 400) {
-      // alert(error.response.data?.data);
+  error => {
+    const { response } = error;
+    const { status, data } = response;
+
+    if (status >= 400 && status < 600) {
+      alert(`Error: ${status} - ${data?.message}`);
     }
-    return Promise.reject(error.response);
+    return Promise.reject(response);
   }
 );
 
