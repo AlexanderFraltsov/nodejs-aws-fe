@@ -16,15 +16,16 @@ axios.interceptors.request.use(
     if (request.url === `${API_PATHS.import}/import`) {
       const token = localStorage.getItem('authorization_token');
       console.log(token);
-      const headers = {
-        ...request.headers,
-        Authorization: `Basic ${token}`
-      };
-
-      return {
-        ...request,
-        headers
-      };
+      if (token) {
+        const headers = {
+          ...request.headers,
+          Authorization: `Basic ${token}`
+        };
+        return {
+          ...request,
+          headers
+        };
+      }
     }
     return request;
   }
